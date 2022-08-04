@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Body, Injectable } from '@nestjs/common';
+import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -12,27 +13,21 @@ export class UserService {
     return data;
   }
 
-  getUserId(params: { id: number }) {
-    const data = this.getUsers().find((user) => {
-      if (user.id === params.id * 1) return user;
-    });
-    return data;
+  getUserId(id: number) {
+    return { id };
   }
 
-  createUser(updateUserDto: { name: string; email: string }) {
+  createUser(updateUserDto: CreateUserDto) {
     return updateUserDto;
   }
 
-  updateUser(
-    updateUserDto: { name: string; email: string },
-    params: { id: number },
-  ) {
-    return { updateUserDto, params };
+  updateUser(updateUserDto: UpdateUserDto, id: number) {
+    return { body: updateUserDto, id };
   }
 
-  deleteUser(params: { id: number }) {
+  deleteUser(id: number) {
     const data = this.getUsers().find((user) => {
-      if (user.id === params.id * 1) return user;
+      if (user.id === id) return user;
     });
     return data;
   }
